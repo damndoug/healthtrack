@@ -1,0 +1,38 @@
+
+.section-dashboard {
+  display: flex;
+  height: 94vh;
+}
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.dashboard .item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  height: 215px;
+  width: 215px;
+}
+.dashboard .item button,
+.dashboard .item a {
+  background-color: #6c5ce7;
+  outline: none;
+  color: #ffffff;
+  border: none;
+  height: 215px;
+  width: 215px;
+  cursor: pointer;
+}
+
+.dashboard .item a {
+	padding-top: 90px;
+	padding-bottom: 90px;
+	height: 215px;
+	width: 215px;
+	text-decoration: none;
+	text-align: center;
+}
