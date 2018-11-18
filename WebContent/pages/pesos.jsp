@@ -26,7 +26,7 @@
       	<form action="pesos" method="post">
     	   	<div class="form-group">
 				
-				<input type="date" name="data" class="form-control" placeholder="Data">				
+				<input type="text" name="data" class="form-control" placeholder="dd/mm/aaaa">				
 				
 				<input type="text" name="peso" class="form-control" placeholder="Peso">
 			
@@ -62,8 +62,8 @@
 	       		<td>${ peso.getDataCadastro() }</td>
 	       		<td>${ peso.getPeso() }</td>
 	       		<td>${ peso.getComentario() }</td>
-	       		<td>editar</td>
-	       		<td>x</td>
+	       		<td><a href="editar?tipo=peso&id=${ peso.getId() }">editar</a></td>
+	       		<td><a href="pesos?acao=remover&id=${ peso.getId() }">x</a></td>
 	       	</tr>
         </c:forEach>
         </tbody>
@@ -74,7 +74,7 @@
 
   <script src="../resources/js/jquery.js"></script>
   <script src="../resources/js/helpers.js"></script>
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

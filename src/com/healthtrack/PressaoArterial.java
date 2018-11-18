@@ -11,6 +11,7 @@ public class PressaoArterial {
 
 	private String pressaoArterial;
 	private Date DataCadastro;
+	private int Id;
 	
 	public PressaoArterial () {
 		
@@ -46,5 +47,13 @@ public class PressaoArterial {
 
 	public void setDataCadastro(Date dataCadastro) {
 		DataCadastro = dataCadastro;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 }

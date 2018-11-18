@@ -23,10 +23,10 @@
 		<c:if test="${not empty erro }">
   			<div class="alert alert-danger">${ erro }</div>
   		</c:if>      
-        <form action="pressao_arterial" method="post">
+        <form action="pressoes" method="post">
           <div class="row">
             <div class="col-sm-4 col-md-4">
-              <input type="text" name="data" class="form-control" placeholder="Data">
+              <input type="text" name="data" class="form-control" placeholder="dd/mm/aaaa">
             </div>
             <div class="col-md-3 col-sm-4">
               <input type="text" name="pressao_arterial" class="form-control" placeholder="Pressão Arterial">
@@ -59,8 +59,8 @@
 	        	<tr>
 	        		<td>${ pressao.getDataCadastro() }</td>
 	        		<td>${ pressao.getPressaoArterial() }</td>
-	        		<td>editar</td>
-	        		<td>x</td>
+	        		<td><a href="editar?tipo=pressao&id=${ pressao.getId() }">editar</a></td>
+	       			<td><a href="pressoes?acao=remover&id=${ pressao.getId() }">x</a></td>
 	        	</tr>
 	        </c:forEach>
         </tbody>
@@ -70,7 +70,7 @@
 
   <script src="../resources/js/jquery.js"></script>
   <script src="../resources/js/helpers.js"></script>
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

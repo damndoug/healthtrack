@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.healthtrack.Alimento;
+import com.healthtrack.Peso;
 import com.healthtrack.dao.impl.AlimentoDAO;
 import com.healthtrack.util.DateUtils;
 
 /**
  * Servlet implementation class AlimentoController
  */
-@WebServlet("/pages/alimentos")
+@WebServlet("/alimentos")
 public class AlimentoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -43,21 +44,33 @@ public class AlimentoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session = request.getSession(false);
 		
+		if (session.getAttribute("userId") == null) {	
+			request.getRequestDispatcher("/").forward(request, response);
+			return;
+		}
+
+		int userId = Integer.parseInt(session.getAttribute("userId").toString());
+
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
 		
 			case "listar":
-				
-				int userId = Integer.parseInt(session.getAttribute("userId").toString());
-
 				ArrayList<Alimento> alimentos = dao.listar(userId);
 				request.setAttribute("alimentos", alimentos);
-				request.getRequestDispatcher("./alimentos.jsp").forward(request, response);
+				request.getRequestDispatcher("pages/alimentos.jsp").forward(request, response);
 				break;
+			case "remover":
+				int alimentoId = Integer.parseInt(request.getParameter("id"));
+				dao.remover(alimentoId, userId);
+				
+				ArrayList<Alimento> alimentosAtualizados = dao.listar(userId);
+				
+				request.setAttribute("alimentos", alimentosAtualizados);
+				request.setAttribute("msg", "Peso removido");
+				request.getRequestDispatcher("pages/alimentos.jsp").forward(request, response);
 		}
 	}
 
@@ -84,13 +97,16 @@ public class AlimentoController extends HttpServlet {
 			
 			dao.cadastrar(alimento, usuario);
 			
+			ArrayList<Alimento> alimentos = dao.listar(usuario);
+			
+			request.setAttribute("alimentos", alimentos);
 			request.setAttribute("msg", "Alimento cadastrado");
 		} catch (Exception e) {
 			request.setAttribute("erro", "Houve um erro no cadastro, por gentileza tente novamente");
 			e.printStackTrace();
 		}
 		
-		request.getRequestDispatcher("./alimentos.jsp").forward(request, response);
+		request.getRequestDispatcher("./pages/alimentos.jsp").forward(request, response);
 	}
 
 }

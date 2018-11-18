@@ -34,8 +34,7 @@ public class LoginController extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("./pages/login.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,16 +49,15 @@ public class LoginController extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", email);
 				session.setAttribute("userId", userId);
-				
-				response.sendRedirect("./pages/dashboard.jsp");
+
+				response.sendRedirect("dashboard");
+				return;
 			}
-
-
 		} catch (Exception e) {
-			request.setAttribute("erro", "Usuario ou senha inválidos");
 			e.printStackTrace();
-			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
+		request.setAttribute("erro", "Usuario ou senha inválidos");
+		request.getRequestDispatcher("pages/login.jsp").forward(request, response);
 	}
 
 }

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.healthtrack.AtividadeFisica;
 import com.healthtrack.Usuario;
 import com.healthtrack.dao.DAOInterface;
 import com.healthtrack.singleton.ConnectionManager;
@@ -56,10 +57,12 @@ public class UsuarioDAO implements DAOInterface<Usuario> {
 		try {
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("UPDATE T_USUARIO SET nm_usuario = ?, email = ?");
+				.prepareStatement("UPDATE T_USUARIO SET email = ?, senha = ?"
+						+ "WHERE id = ?");
 			
-			ps.setString(1, usuario.getNome());
-			ps.setString(2, usuario.getEmail());
+			ps.setString(1, usuario.getEmail());
+			ps.setString(2, usuario.getSenha());
+			ps.setInt(3, usuarioId);
 			
 			ps.execute();
 			
@@ -88,7 +91,36 @@ public class UsuarioDAO implements DAOInterface<Usuario> {
 
 	@Override
 	public Usuario buscar(int id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		try {
+			Usuario usuario = new Usuario();
+			con = ConnectionManager.getInstance().getConnection();
+			ps = con
+				.prepareStatement("SELECT * FROM T_USUARIO WHERE ID = ?");
+			
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				usuario.setId(rs.getInt("ID"));
+				usuario.setNome(rs.getString("NM_USUARIO"));
+				usuario.setEmail(rs.getString("EMAIL"));
+				usuario.setSenha(rs.getString("SENHA"));
+				usuario.setDataCadastro(rs.getDate("DT_CADASTRO"));
+
+				return usuario;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+		}
 		return null;
 	}
 
@@ -107,6 +139,7 @@ public class UsuarioDAO implements DAOInterface<Usuario> {
 			
 			while (rs.next()) {
 				Usuario usuario = new Usuario();
+				usuario.setId(rs.getInt("ID"));
 				usuario.setNome(rs.getString("NM_USUARIO"));;
 				usuario.setEmail(rs.getString("EMAIL"));
 				usuario.setSexo(rs.getInt("T_SEXO_ID_SEXO"));
@@ -146,7 +179,7 @@ public class UsuarioDAO implements DAOInterface<Usuario> {
 			
 			usuario.setSenha(senha);
 			usuario.setEmail(email);
-
+			
 			ps.setString(1, usuario.getEmail());
 			ps.setString(2, usuario.getSenha());
 

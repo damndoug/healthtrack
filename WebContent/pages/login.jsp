@@ -7,8 +7,8 @@
 
 <head>
   <meta name="description" content="BOOTSTRAP">
-  <link rel="stylesheet" href="resources/css/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/login.css">
+  <link rel="stylesheet" href="../resources/css/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../resources/css/login.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
   <div class="container">
     <div class="login">
       <div class="title">
-        <h1>HEALTH TRACK</h1>
+        <a href="/">HEALTH TRACK</a>
       </div>
       
 		<c:if test="${not empty erro }">
@@ -35,13 +35,13 @@
         </div>
         <button type="submit" class="btn btn-login">Entrar</button>
       </form>
-      <small>Não possui conta? <span><a href="./pages/cadastrar.jsp">Cadastre-se</a></span></small>
+      <small>Não possui conta? <span><a href="pages/cadastrar.jsp">Cadastre-se</a></span></small>
     </div>
   </div>
 
-  <script src="resources/js/jquery.js"></script>
-  <script src="resources/js/helpers.js"></script>
-  <script src="resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/js/jquery.js"></script>
+  <script src="../resources/js/helpers.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

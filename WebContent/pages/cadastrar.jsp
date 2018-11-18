@@ -29,13 +29,13 @@
       <div class="error-message" id="error-lack-field-login-message">
         <p>Campos obrigatórios.</p>
       </div>
-      <form action="usuario" class="login-form" onsubmit="return formValidation()" method="post">
+      <form action="usuario" class="login-form" method="post">
         <div class="form-group">
-          <input id="login-email" name="nome" type="text" class="form-control" placeholder="Seu nome">
+          <input id="signup-name" name="nome" type="text" class="form-control" placeholder="Seu nome">
         </div>
 
         <div class="form-group">
-          <input id="login-email" name="email" type="email" class="form-control" placeholder="Seu email">
+          <input id="signup-email" name="email" type="email" class="form-control" placeholder="Seu email">
         </div>
 
 		<div class="form-group">
@@ -46,20 +46,19 @@
 		</div>
 
         <div class="form-group">
-          <input id="login-password" name="senha" type="password" class="form-control" placeholder="Sua senha">
+          <input id="signup-password" name="senha" type="password" class="form-control" placeholder="Sua senha">
         </div>
         <div class="form-group">
-          <input id="login-password" name="confirmarSenha" type="password" class="form-control" placeholder="Confirme sua senha">
+          <input id="sign-up-confirm-password" name="confirmarSenha" type="password" class="form-control" placeholder="Confirme sua senha">
         </div>
         <button type="submit" class="btn btn-login">Entrar</button>
       </form>
-      <small>Já possui conta? <span><a href="../index.jsp">Clique aqui</a></span></small>
+      <small>Já possui conta? <span><a href="../login">Clique aqui</a></span></small>
     </div>
   </div>
 
   <script src="../resources/js/jquery.js"></script>
-  <script src="../resources/js/login.js"></script>
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.healthtrack.Alimento;
 import com.healthtrack.AtividadeFisica;
 import com.healthtrack.dao.DAOInterface;
 import com.healthtrack.singleton.ConnectionManager;
@@ -54,12 +55,15 @@ public class AtividadeFisicaDAO implements DAOInterface<AtividadeFisica> {
 		try {
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("UPDATE T_EXERCICIO SET ds_exercicio = ?, qt_calorias = ?, qt_tempo_minutos = ?, t_usuario_id = ?");
+				.prepareStatement(
+						"UPDATE T_EXERCICIO "
+						+ "SET ds_exercicio = ?, qt_calorias = ?, qt_tempo_minutos = ?"
+						+ "WHERE ID_EXERCICIO = ?");
 			
 			ps.setString(1, atividade.getDescAtividade());
 			ps.setDouble(2, atividade.getCalorias());
 			ps.setInt(3, atividade.getTempo());
-			ps.setInt(4, usuarioId);
+			ps.setInt(4, atividade.getId());
 			
 			ps.executeQuery();
 		} catch (Exception e) {
@@ -83,8 +87,11 @@ public class AtividadeFisicaDAO implements DAOInterface<AtividadeFisica> {
 		try {
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("");
+				.prepareStatement("DELETE FROM T_EXERCICIO WHERE ID_EXERCICIO = ?");
 			
+			ps.setInt(1, codigo);
+			ps.executeQuery();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -102,7 +109,35 @@ public class AtividadeFisicaDAO implements DAOInterface<AtividadeFisica> {
 
 	@Override
 	public AtividadeFisica buscar(int id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		try {
+			AtividadeFisica atividade = new AtividadeFisica();
+			con = ConnectionManager.getInstance().getConnection();
+			ps = con
+				.prepareStatement("SELECT * FROM T_EXERCICIO WHERE ID_EXERCICIO = ?");
+			
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				atividade.setId(rs.getInt("ID_EXERCICIO"));
+				atividade.setDescAtividade(rs.getString("DS_EXERCICIO"));
+				atividade.setDataCadastro(rs.getDate("DT_CADASTRO"));
+				atividade.setCalorias(rs.getDouble("QT_CALORIAS"));
+				atividade.setTempo(rs.getInt("QT_TEMPO_MINUTOS"));
+				return atividade;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+		}
 		return null;
 	}
 
@@ -126,6 +161,7 @@ public class AtividadeFisicaDAO implements DAOInterface<AtividadeFisica> {
 			
 			while (rs.next()) {
 				AtividadeFisica atividade = new AtividadeFisica();
+				atividade.setId(rs.getInt("ID_EXERCICIO"));
 				atividade.setDescAtividade(rs.getString("DS_EXERCICIO"));
 				atividade.setCalorias(rs.getInt("QT_CALORIAS"));
 				atividade.setTempo(rs.getInt("QT_TEMPO_MINUTOS"));

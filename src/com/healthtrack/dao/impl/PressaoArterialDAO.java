@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.healthtrack.AtividadeFisica;
 import com.healthtrack.PressaoArterial;
 import com.healthtrack.dao.DAOInterface;
 import com.healthtrack.singleton.ConnectionManager;
@@ -50,10 +51,13 @@ public class PressaoArterialDAO implements DAOInterface<PressaoArterial> {
 		try {
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("UPDATE T_PRESSAO_ARTERIAL SET qt_pressao_arterial = ?, t_usuario_id = ?");
+				.prepareStatement(
+						"UPDATE T_PRESSAO_ARTERIAL "
+						+ "SET qt_pressao_arterial = ?, dt_cadastro = ? WHERE ID = ?");
 			
 			ps.setString(1, pressao.getPressaoArterial());
-			ps.setInt(2, usuarioId);
+			ps.setDate(2, pressao.getDataCadastro());
+			ps.setInt(3, pressao.getId());
 			
 			ps.executeQuery();
 		} catch (Exception e) {
@@ -77,7 +81,10 @@ public class PressaoArterialDAO implements DAOInterface<PressaoArterial> {
 		try {
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("");
+				.prepareStatement("DELETE FROM T_PRESSAO_ARTERIAL WHERE ID = ?");
+			
+			ps.setInt(1, codigo);
+			ps.executeQuery();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,10 +106,19 @@ public class PressaoArterialDAO implements DAOInterface<PressaoArterial> {
 		PreparedStatement ps = null;
 		
 		try {
+			PressaoArterial pressao = new PressaoArterial();
 			con = ConnectionManager.getInstance().getConnection();
 			ps = con
-				.prepareStatement("");
-			
+				.prepareStatement("SELECT * FROM T_PRESSAO_ARTERIAL WHERE ID = ?");
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				pressao.setId(rs.getInt("ID"));
+				pressao.setPressaoArterial(rs.getString("QT_PRESSAO_ARTERIAL"));
+				pressao.setDataCadastro(rs.getDate("DT_CADASTRO"));
+				return pressao;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -137,6 +153,7 @@ public class PressaoArterialDAO implements DAOInterface<PressaoArterial> {
 			
 			while (rs.next()) {
 				PressaoArterial pressaoArterial = new PressaoArterial();
+				pressaoArterial.setId(rs.getInt("ID"));
 				pressaoArterial.setPressaoArterial(rs.getString("QT_PRESSAO_ARTERIAL"));
 				pressaoArterial.setDataCadastro(rs.getDate("DT_CADASTRO"));
 				pressoes.add(pressaoArterial);

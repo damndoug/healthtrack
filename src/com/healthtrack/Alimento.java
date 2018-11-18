@@ -9,6 +9,7 @@ import java.sql.Date;
  */
 public class Alimento {
 
+	private int Id;
 	private String DescAlimento;
 	private double Calorias;
 	private String Comentarios;
@@ -84,6 +85,14 @@ public class Alimento {
 
 	public void setDataCadastro(Date dataCadastro) {
 		DataCadastro = dataCadastro;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 }
 

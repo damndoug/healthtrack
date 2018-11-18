@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 .default-navbar {
-  background-color: #6c5ce7 !important;
+  background-image: -webkit-linear-gradient(135deg, #49e3ce 0%, #9920ed 100%);
   color: #ffffff !important;
 }
 .default-navbar li {

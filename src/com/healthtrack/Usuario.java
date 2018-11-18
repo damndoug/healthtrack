@@ -1,4 +1,4 @@
-package com.healthtrack;
+	package com.healthtrack;
 
 import java.sql.Date;
 
@@ -11,7 +11,7 @@ import com.healthtrack.util.CriptografiaUtils;
  */
 public class Usuario {
 
-
+	private int Id;
 	private String Nome;
 	private Date DtNasc;
 	private String Email;
@@ -134,6 +134,14 @@ public class Usuario {
 
 	public void setDataCadastro(Date dataCadastro) {
 		DataCadastro = dataCadastro;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 	  
 }

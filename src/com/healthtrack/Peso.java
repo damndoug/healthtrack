@@ -10,6 +10,7 @@ import java.sql.Date;
 public class Peso {
 
 
+	private int Id;
 	private double Peso;
 	private String Comentario;
 	private Date DataCadastro;
@@ -62,5 +63,11 @@ public class Peso {
 	}
 	public void setUsuario(int usuario) {
 		Usuario = usuario;
+	}
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
 	}
 }

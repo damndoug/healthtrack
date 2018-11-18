@@ -26,7 +26,7 @@
       <form action="alimentos" method="post">
         <div class="row">
           <div class="col-md-4 col-sm-4">
-            <input type="text" name="data" class="form-control" placeholder="Data">
+            <input type="text" name="data" class="form-control" placeholder="dd/mm/aaaa">
           </div>
           <div class="col-md-2 col-sm-4">
             <input type="text" name="desc_alimento" class="form-control" placeholder="Alimentos">
@@ -68,8 +68,8 @@
         		<td>${ alimento.getDescAlimento() }</td>
         		<td>${ alimento.getCalorias() }</td>
         		<td>${ alimento.getComentarios() }</td>
-        		<td>editar</td>
-        		<td>x</td>
+        		<td><a href="editar?tipo=alimento&id=${ alimento.getId() }">editar</a></td>
+	       		<td><a href="alimentos?acao=remover&id=${ alimento.getId() }">x</a></td>
         	</tr>
         </c:forEach>
         </tbody>
@@ -79,7 +79,7 @@
 
   <script src="../resources/js/jquery.js"></script>
   <script src="../resources/js/helpers.js"></script>
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

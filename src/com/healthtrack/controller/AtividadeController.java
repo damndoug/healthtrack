@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.healthtrack.Alimento;
 import com.healthtrack.AtividadeFisica;
 import com.healthtrack.dao.impl.AtividadeFisicaDAO;
 import com.healthtrack.util.DateUtils;
@@ -18,7 +19,7 @@ import com.healthtrack.util.DateUtils;
 /**
  * Servlet implementation class AtividadeController
  */
-@WebServlet("/pages/atividades")
+@WebServlet("/atividades")
 public class AtividadeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -45,18 +46,32 @@ public class AtividadeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		
+		if (session.getAttribute("userId") == null) {	
+			request.getRequestDispatcher("/").forward(request, response);
+			return;
+		}
+		
+		int userId = Integer.parseInt(session.getAttribute("userId").toString());
+
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
 		
 			case "listar":
-				
-				int userId = Integer.parseInt(session.getAttribute("userId").toString());
-
 				ArrayList<AtividadeFisica> atividades = dao.listar(userId);
 				request.setAttribute("atividades", atividades);
-				request.getRequestDispatcher("./atividades.jsp").forward(request, response);
+				request.getRequestDispatcher("pages/atividades.jsp").forward(request, response);
 				break;
+			case "remover":
+				int atividadeId = Integer.parseInt(request.getParameter("id"));
+				
+				dao.remover(atividadeId, userId);
+				
+				ArrayList<AtividadeFisica> atividadesAtualizadas = dao.listar(userId);
+				
+				request.setAttribute("atividades", atividadesAtualizadas);
+				request.setAttribute("msg", "Atividade removida");
+				request.getRequestDispatcher("pages/atividades.jsp").forward(request, response);
 		}
 	}
 
@@ -82,13 +97,15 @@ public class AtividadeController extends HttpServlet {
 			atividade.setDataCadastro(dataCadastro);
 			
 			dao.cadastrar(atividade, usuario);
+			ArrayList<AtividadeFisica> atividades = dao.listar(usuario);
 			
+			request.setAttribute("atividades", atividades);
 			request.setAttribute("msg", "Atividade Física cadastrada");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("./atividades.jsp").forward(request, response);
+		request.getRequestDispatcher("pages/atividades.jsp").forward(request, response);
 	}
 
 }

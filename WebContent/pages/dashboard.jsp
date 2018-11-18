@@ -18,22 +18,22 @@
     <div class="row dashboard">
       <div class="item">
 
-          <a href="./pesos?acao=listar">Pesos</a>
+          <a href="pesos?acao=listar">Pesos</a>
 
       </div>
       <div class="item">
 
-          <a href="./alimentos?acao=listar">Alimentos</a>
+          <a href="alimentos?acao=listar">Alimentos</a>
 
       </div>
       <div class="item">
 
-          <a href="./pressao_arterial?acao=listar">Pressão Arterial</a>
+          <a href="pressoes?acao=listar">Pressão Arterial</a>
 
       </div>
       <div class="item">
 
-          <a href="./atividades?acao=listar">Atividades</a>
+          <a href="atividades?acao=listar">Atividades</a>
 
       </div>
     </div>
@@ -42,7 +42,7 @@
 
   <script src="../resources/js/jquery.js"></script>
   <script src="../resources/js/helpers.js"></script>
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../resources/css/bootstrap/js/bootstrap.min.js"></script>
  
 
 </body>

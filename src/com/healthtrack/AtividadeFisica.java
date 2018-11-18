@@ -9,6 +9,7 @@ import java.sql.Date;
  */
 public class AtividadeFisica {
 
+	private int Id;
 	private String DescAtividade;
 	private double Calorias;
 	private int Tempo;
@@ -85,6 +86,14 @@ public class AtividadeFisica {
 
 	public void setComentarios(String comentarios) {
 		Comentarios = comentarios;
+	}
+
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 }
 

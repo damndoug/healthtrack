@@ -6,7 +6,7 @@
 .dashboard {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 50px;
   flex: 1;
 }
 .dashboard .item {
@@ -26,6 +26,7 @@
   height: 215px;
   width: 215px;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 .dashboard .item a {
@@ -35,4 +36,12 @@
 	width: 215px;
 	text-decoration: none;
 	text-align: center;
+	transition: all ease .2s
+}
+
+.dashboard .item a:hover {
+	margin-top: -10px;
+	-webkit-box-shadow: -2px 7px 19px -4px rgba(150,150,150,1);
+	-moz-box-shadow: -2px 7px 19px -4px rgba(150,150,150,1);
+	box-shadow: -2px 7px 19px -4px rgba(150,150,150,1);
 }

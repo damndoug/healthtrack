@@ -11,6 +11,12 @@
   font-family: 'Montserrat';
   color: #6c5ce7;
 }
+.title > a {
+  font-family: 'Montserrat';
+  color: #6c5ce7;
+  font-size: 2.5em;	
+  text-decoration: none;
+}
 .login-form {
   width: 350px;
 }

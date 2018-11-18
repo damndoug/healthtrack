@@ -19,7 +19,7 @@ import com.healthtrack.util.DateUtils;
 /**
  * Servlet implementation class PesoController
  */
-@WebServlet("/pages/pesos")
+@WebServlet("/pesos")
 public class PesoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,21 +42,35 @@ public class PesoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session = request.getSession(false);
+		
+		if (session.getAttribute("userId") == null) {	
+			request.getRequestDispatcher("/").forward(request, response);
+			return;
+		}
+
+		int userId = Integer.parseInt(session.getAttribute("userId").toString());
 		
 		String acao = request.getParameter("acao");
 
 		switch (acao) {
 		
 			case "listar":
-				
-				int userId = Integer.parseInt(session.getAttribute("userId").toString());
-			
 				ArrayList<Peso> pesos = dao.listar(userId);
+			
 				request.setAttribute("pesos", pesos);
-				request.getRequestDispatcher("./pesos.jsp").forward(request, response);
+				request.getRequestDispatcher("pages/pesos.jsp").forward(request, response);
 				break;
+			case "remover":
+				int pesoId = Integer.parseInt(request.getParameter("id"));
+				dao.remover(pesoId, userId);
+				
+				ArrayList<Peso> pesosAtualizados = dao.listar(userId);
+				
+				request.setAttribute("pesos", pesosAtualizados);
+				request.setAttribute("msg", "Peso removido");
+				request.getRequestDispatcher("pages/pesos.jsp").forward(request, response);
+				
 		}
 	}
 
@@ -67,7 +81,12 @@ public class PesoController extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			
-			int qtpeso = Integer.parseInt(request.getParameter("peso"));
+			if (session.getAttribute("userId") == null) {	
+				request.getRequestDispatcher("/").forward(request, response);
+				return;
+			}
+			
+			double qtpeso = Double.parseDouble(request.getParameter("peso"));
 			String comentarios = request.getParameter("comentarios");
 			int usuario = Integer.parseInt(session.getAttribute("userId").toString());
 			Date dataCadastro = DateUtils.ConverterParaData(request.getParameter("data"));
@@ -79,7 +98,9 @@ public class PesoController extends HttpServlet {
 			peso.setDataCadastro(dataCadastro);
 			
 			dao.cadastrar(peso, usuario);
+			ArrayList<Peso> pesos = dao.listar(usuario);
 			
+			request.setAttribute("pesos", pesos);
 			request.setAttribute("msg", "Peso cadastrado");
 
 		} catch (Exception e) {
@@ -89,7 +110,7 @@ public class PesoController extends HttpServlet {
 
 		}
 
-		request.getRequestDispatcher("./pesos.jsp").forward(request, response);
+		request.getRequestDispatcher("pages/pesos.jsp").forward(request, response);
 	}
 
 }
